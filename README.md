@@ -1,5 +1,9 @@
 ESP-IDF A2DP-SINK demo
 ======================
+Modifyed for Techfest workshop
+16 bit -> 32 bit 
+Added MerusAudio Multilevel classD driver 
+
 
 Demo of A2DP audio sink role
 
