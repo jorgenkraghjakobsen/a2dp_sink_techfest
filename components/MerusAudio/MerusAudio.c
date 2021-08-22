@@ -69,8 +69,11 @@ void setup_ma120x0()
    uint8_t res = ma_read_byte(MA_hw_version__a);
    printf("Hardware version: 0x%02x\n",res);
 
-   ma_write_byte(MA_i2s_format__a,9);          // Set i2s left justified, set audio_proc_enable
-   ma_write_byte(MA_vol_db_master__a,0x20);    // Set vol_db_master 
+   res = ma_read_byte(MA_hw_version__a);
+   printf("Hardware version: 0x%02x\n",res);
+
+   ma_write_byte(MA_i2s_format__a,8);          // Set i2s left justified, set audio_proc_enable
+   ma_write_byte(MA_vol_db_master__a,0x40);    // Set vol_db_master 
 
    res = ma_read_byte(MA_error__a); 
    printf("Errors : 0x%02x\n",res);
@@ -86,20 +89,28 @@ void setup_ma120x0()
    gpio_set_level(MA_NMUTE_IO, 1);
    printf("Unmute\n");
 }
-
+static i2c_config_t i2c_cfg = {
+    .mode = I2C_MODE_MASTER,
+    .sda_pullup_en = GPIO_PULLUP_ENABLE,
+    .scl_pullup_en = GPIO_PULLUP_ENABLE,
+    .sda_io_num    = 18, 
+    .scl_io_num    = 5, 
+    .master.clk_speed = I2C_MASTER_FREQ_HZ,
+};
 
 void i2c_master_init()
 {  int i2c_master_port = I2C_MASTER_NUM;
-   i2c_config_t conf;
-   conf.mode = I2C_MODE_MASTER;
-   conf.sda_io_num = I2C_MASTER_SDA_IO;
-   conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
-   conf.scl_io_num = I2C_MASTER_SCL_IO;
-   conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
-   conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
-   esp_err_t res = i2c_param_config(i2c_master_port, &conf);
-   printf("Driver param setup : %d\n",res);
-   res = i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
+   //i2c_set_pin(i2c_master_port, 18, 5, true, true, I2C_MODE_MASTER);
+   //i2c_config_t conf;
+   //conf.mode = I2C_MODE_MASTER;
+   //conf.sda_io_num = 13; //2I2C_MASTER_SDA_IO;
+   //conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
+   //conf.scl_io_num = 12; //I2C_MASTER_SCL_IO;
+   //conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
+   //conf.master.clk_speed = 100000; //I2C_MASTER_FREQ_HZ;
+   esp_err_t res = i2c_param_config(i2c_master_port, &i2c_cfg);
+   //printf("Driver param setup : %d\n",res);
+   res = i2c_driver_install(i2c_master_port, i2c_cfg.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
    printf("Driver installed   : %d\n",res);
 }
 
