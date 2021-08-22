@@ -1,7 +1,0 @@
-source "/home/jakobsen/esp/a2dp_sink_techfest_jkj/components/MerusAudio/Kconfig.projbuild"
-source "/home/jakobsen/esp/esp-idf/components/app_update/Kconfig.projbuild"
-source "/home/jakobsen/esp/esp-idf/components/bootloader/Kconfig.projbuild"
-source "/home/jakobsen/esp/esp-idf/components/esp_rom/Kconfig.projbuild"
-source "/home/jakobsen/esp/esp-idf/components/esptool_py/Kconfig.projbuild"
-source "/home/jakobsen/esp/a2dp_sink_techfest_jkj/main/Kconfig.projbuild"
-source "/home/jakobsen/esp/esp-idf/components/partition_table/Kconfig.projbuild"
